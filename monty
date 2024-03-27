@@ -1,0 +1,67 @@
+#ifndef MONTY_H
+#define MONTY_H
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <stdarg.h>
+
+/* Structure representing a node in the stack */
+typedef struct stack_s
+{
+    int value;
+    struct stack_s *prev;
+    struct stack_s *next;
+} stack_t;
+
+/* Structure representing an opcode and its associated function */
+typedef struct instruction_s
+{
+    char *opcode;
+    void (*f)(stack_t **stack, unsigned int line_number);
+} instruction_t;
+
+/* External declaration of the head of the stack */
+extern stack_t *head;
+
+/* Function prototypes for file operations */
+void open_file(char *file_name);
+void parse_lines(FILE *file);
+void process_line(char *buffer, int line_number);
+int len_chars(FILE *file);
+void find_func(char *buffer, char *opcode, int line_number, int format);
+
+/* Function prototypes for stack operations */
+stack_t *create_node(int value);
+void free_nodes(void);
+void print_stack(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void add_to_queue(stack_t **stack, unsigned int line_number);
+void print_top(stack_t **stack, unsigned int line_number);
+void pop_top(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
+void swap_nodes(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
+
+/* Function prototypes for math operations with nodes */
+void add(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
+void div(stack_t **stack, unsigned int line_number);
+void mul(stack_t **stack, unsigned int line_number);
+void mod(stack_t **stack, unsigned int line_number);
+
+/* Function prototypes for string operations */
+void print_char(stack_t **stack, unsigned int line_number);
+void print_str(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+
+/* Function prototypes for error handling */
+void err(int error_code, const char *message, ...);
+void more_err(int error_code, const char *message, ...);
+void string_err(int error_code, const char *message, ...);
+
+#endif
+
